@@ -268,3 +268,10 @@ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build mon
 docker logs node-app-node-app-1 -f 
 위와 같이 하면 log에서 successfully connected to DB 메시지를 볼 수 있다.
 ```
+
+
+
+# 유투브 16 정리 - Demo Blog CRUD Application
+https://www.youtube.com/watch?v=aJhJsimY2Jo&list=PL8VzFQ8k4U1JEu7BLraz8MdKJILJir7oY&ab_channel=SanjeevThiyagarajan
+
+mongodb의 test db에 posts collection에 db를 저장한다. 여기서 test db가 아닌 다른 db에 저장하려면?

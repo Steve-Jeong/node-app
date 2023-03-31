@@ -3,7 +3,11 @@ if(process.env.NODE_ENV==='development')
 const express = require('express')
 const mongoose = require('mongoose')
 const {MONGO_USER, MONGO_PASSWORD, MONGO_IP, MONGO_PORT} = require('./config/config')
+
+const postRouter = require('./routes/postRoutes')
 const app = express()
+
+app.use(express.json())
 
 const connectWithRetry =  () => {
   mongoose
@@ -20,6 +24,8 @@ connectWithRetry()
 app.get('/', (req, res)=>{
   res.send('<h1>Hello World!!</h1>')
 })
+
+app.use('/api/v1/posts', postRouter)
 
 const PORT = process.env.PORT || 3001
 console.log('PORT : ', PORT)
