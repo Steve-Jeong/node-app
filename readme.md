@@ -215,3 +215,56 @@ volumes:
   - ./:/app
 ```
 
+   
+
+# 유투브 15 정리
+https://www.youtube.com/watch?v=Xgcr0NLlJT4&list=PL8VzFQ8k4U1JEu7BLraz8MdKJILJir7oY&index=15&ab_channel=SanjeevThiyagarajan
+
+mongo를 node보다 먼저 로드되도록 해야 한다.
+
+```
+services:
+  node-app:
+    build: .
+    depends_on:  # mongo가 먼저 로드되도록 한다
+      - mongo
+```
+
+그러나 위와 같이 하더라도 실제로 mongodb가 작동상태인지는 확신할 수 없다. node에서 다음과 같이 하여 5초마다 접속시도를 하게 할 수 있다.
+
+```JavaScript
+변경전
+mongoose.connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MONGO_PORT}/?authSource=admin`)
+  .then(()=>console.log("successfully connected to DB"))
+  .catch((e)=>console.log(e))
+
+변경후
+const connectWithRetry =  () => {
+  mongoose.connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MONGO_PORT}/?authSource=admin`)
+    .then(()=>console.log("successfully connected to DB"))
+    .catch((e)=>{
+      console.log(e)
+      setTimeout(connectWithRetry, 5000)
+    })
+}
+connectWithRetry()
+```
+
+위와 같이 하고 다음과 같이 node-app만 실행하고 docker logs를 살펴본다.
+```bash
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --no-deps node-app
+위에서 --no-deps가 없다면, docker-compose.yml에 depends_on으로 mongo 컨테이너를 필요로 하므로 node-app 컨테이너만 실행할 수 없다.
+
+다음 명령으로 도커 로그를 살펴본다.
+docker logs node-app-node-app-1 -f 
+-f옵션은 출력을 계속 모니터링할 수 있게 한다.
+위와 같이 하면 mongo 컨테이너가 실행중이 아니므로 node 컨테이너가 계속해서 30초마다 접속을 시도한다.
+```
+
+mongo 컨테이너만 실행하고, docker logs를 다시 살펴본다.
+```
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build mongo      
+
+docker logs node-app-node-app-1 -f 
+위와 같이 하면 log에서 successfully connected to DB 메시지를 볼 수 있다.
+```

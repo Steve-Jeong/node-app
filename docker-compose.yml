@@ -2,6 +2,8 @@ version: "3"
 services:
   node-app:
     build: .
+    depends_on:
+      - mongo
 
   mongo:
     image: mongo   #mongo database
