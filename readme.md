@@ -1,6 +1,6 @@
 Devops with Docker and Node.js
 ==============================
-아래 유투브 1~12까지 정리
+유투브 1~12까지 정리   
 https://www.youtube.com/watch?v=Ck7baWmnldY&list=PL8VzFQ8k4U1JEu7BLraz8MdKJILJir7oY&ab_channel=SanjeevThiyagarajan
 
 
@@ -139,7 +139,8 @@ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 
 도커컴포즈 배포환경에서는 로컬환경의 소스코드변경이 빌드프로세스에서 캐치하지 못할 경우가 있으므로 --build옵션을 더해준다.
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
-```
+```   
+
 
 # 유투브 13 정리
 https://www.youtube.com/watch?v=wZZMuqDmNmU&list=PL8VzFQ8k4U1JEu7BLraz8MdKJILJir7oY&ab_channel=SanjeevThiyagarajan
@@ -184,3 +185,33 @@ docker volume prune
 그 다음 -v옵션이 없는 명령어도 컨테이너 중지를 한다.
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
 ```
+
+
+# 유투브 14 정리
+https://www.youtube.com/watch?v=siSUyDzbe1E&list=PL8VzFQ8k4U1JEu7BLraz8MdKJILJir7oY&index=14&ab_channel=SanjeevThiyagarajan
+
+mongoose를 Local환경에서 npm i mongoose로 추가하려니 package.json에 다음과 같은 오류가 발생
+npm ERR! code EACCES
+npm ERR! syscall mkdir
+npm ERR! path /home/ubuntu/dev/docker/node-app/node_modules/abbrev
+npm ERR! errno -13
+npm ERR! Error: EACCES: permission denied, mkdir '/home/ubuntu/dev/docker/node-app/node_modules/abbrev'
+
+docker-compose로 컨테이너를 돌리는 상태에서 npm i mongoose로 추가 성공.
+
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build와 같이 컨테이너를 실행하니 다음과 같은 에러 발행
+
+Error response from daemon: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: error during container init: error mounting "/var/lib/docker/volumes/25fd09b5310a74f2ae95664608726a46f21e3c9cd5589ceaf3a0cb57199b3c84/_data" to rootfs at "/app/node_modules": mkdir /var/lib/docker/overlay2/3a88ce02d2aafdf7d9d6358fb31ba8eed85547c3b887b4aa9b716a4fb3f0d3f4/merged/app/node_modules: read-only file system: unknown
+
+docker-compose.yml에서 volumes에서 Read Only속성을 제거하고 다시 컨테이너를 생성하니 성공
+
+```
+변경전 
+volumes:
+  - ./:/app:ro
+
+변경후 
+volumes:
+  - ./:/app
+```
+

@@ -10,7 +10,15 @@ services:
     environment:
       - PORT=4567
       - NODE_ENV=development
+      - MONGO_USER=sanjeev
+      - MONGO_PASSWORD=mypassword
     volumes:
-      - ./:/app:ro
+      - ./:/app
       - /app/node_modules
     command: npm run dev
+
+  mongo:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=sanjeev
+      - MONGO_INITDB_ROOT_PASSWORD=mypassword
+    
