@@ -140,3 +140,47 @@ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 도커컴포즈 배포환경에서는 로컬환경의 소스코드변경이 빌드프로세스에서 캐치하지 못할 경우가 있으므로 --build옵션을 더해준다.
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
 ```
+
+# 유투브 13 정리
+https://www.youtube.com/watch?v=wZZMuqDmNmU&list=PL8VzFQ8k4U1JEu7BLraz8MdKJILJir7oY&ab_channel=SanjeevThiyagarajan
+
+```dockerfile
+version: "3"
+services:
+  node-app:
+    build: .
+
+  mongo:
+    image: mongo   #mongo database
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=sanjeev
+      - MONGO_INITDB_ROOT_PASSWORD=mypassword
+    volumes:
+      - mongo-db:/data/db    # named volume이름은 volume section에 그 이름을 미리 등록해야 한다.
+
+volumes:
+  mongo-db:
+```
+
+```
+컨테이너 생성 및 실행
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+
+mongodb 컨테이너에 다음과 같이 접근 가능
+1. bash를 통해서 접근
+docker exec -it node-app-mongo-1 bash
+# mongosh -u "sanjeev" -p "mypassword"
+
+2. mongosh로 바로 접근
+docker exec -it node-app-mongo-1 mongosh -u "sanjeev" -p "mypassword"
+
+컨테이너 중지 및 삭제
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml down -v
+
+위와 같이 -v옵션을 주면 anonymous volume뿐만 아니라 named volume도 삭제한다. 따라서 컨테이너가 돌아가는 상태에서
+docker volume prune
+을 통해 컨테이너와 상관이 없는 볼륨만 삭제해야 한다.
+
+그 다음 -v옵션이 없는 명령어도 컨테이너 중지를 한다.
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
+```

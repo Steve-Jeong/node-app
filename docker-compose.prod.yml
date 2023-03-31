@@ -6,7 +6,7 @@ services:
       args: 
         NODE_ENV: production
     ports:
-      - "3001:4422"
+      - 3001:4422
     env_file:
       - ./.env
     environment:
