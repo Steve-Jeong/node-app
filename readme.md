@@ -77,7 +77,7 @@ services:
 
 ```dockerfile
 현재 directory의 Dockerfile을 이용하여 node-app-image라는 이름의 도커이미지 생성   
-docker built -t node-app-image .   
+docker build -t node-app-image .   
    
 도커 이미지 리스트 표시
 docker image ls
@@ -142,7 +142,7 @@ docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
 ```   
 
 
-# 유투브 13 정리
+# 유투브 13 정리 - mongodb 컨테이너 설치
 https://www.youtube.com/watch?v=wZZMuqDmNmU&list=PL8VzFQ8k4U1JEu7BLraz8MdKJILJir7oY&ab_channel=SanjeevThiyagarajan
 
 ```dockerfile
@@ -152,7 +152,7 @@ services:
     build: .
 
   mongo:
-    image: mongo   #mongo database
+    image: mongo:6   #mongo database
     environment:
       - MONGO_INITDB_ROOT_USERNAME=sanjeev
       - MONGO_INITDB_ROOT_PASSWORD=mypassword
@@ -187,7 +187,7 @@ docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
 ```
 
 
-# 유투브 14 정리
+# 유투브 14 정리 - mongoose설치
 https://www.youtube.com/watch?v=siSUyDzbe1E&list=PL8VzFQ8k4U1JEu7BLraz8MdKJILJir7oY&index=14&ab_channel=SanjeevThiyagarajan
 
 mongoose를 Local환경에서 npm i mongoose로 추가하려니 package.json에 다음과 같은 오류가 발생
@@ -197,7 +197,7 @@ npm ERR! path /home/ubuntu/dev/docker/node-app/node_modules/abbrev
 npm ERR! errno -13
 npm ERR! Error: EACCES: permission denied, mkdir '/home/ubuntu/dev/docker/node-app/node_modules/abbrev'
 
-docker-compose로 컨테이너를 돌리는 상태에서 npm i mongoose로 추가 성공.
+node_modules 디렉토리를 지우고, npm i mongoose로 추가 성공.
 
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build와 같이 컨테이너를 실행하니 다음과 같은 에러 발행
 
@@ -217,7 +217,7 @@ volumes:
 
    
 
-# 유투브 15 정리
+# 유투브 15 정리 - depends_on property
 https://www.youtube.com/watch?v=Xgcr0NLlJT4&list=PL8VzFQ8k4U1JEu7BLraz8MdKJILJir7oY&index=15&ab_channel=SanjeevThiyagarajan
 
 mongo를 node보다 먼저 로드되도록 해야 한다.
@@ -275,3 +275,14 @@ docker logs node-app-node-app-1 -f
 https://www.youtube.com/watch?v=aJhJsimY2Jo&list=PL8VzFQ8k4U1JEu7BLraz8MdKJILJir7oY&ab_channel=SanjeevThiyagarajan
 
 mongodb의 test db에 posts collection에 db를 저장한다. 여기서 test db가 아닌 다른 db에 저장하려면?
+-> connection string의 port뒤에 다음과 같이 넣는다. (mytestdb)
+mongoose
+    .connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MONGO_PORT}/mytestdb?authSource=admin`)
+
+
+
+# 유투브 17 정리 - Signup and Login
+https://www.youtube.com/watch?v=AxMhLqZYPIg&list=PL8VzFQ8k4U1JEu7BLraz8MdKJILJir7oY&index=17&t=518s&ab_channel=SanjeevThiyagarajan
+
+bcrypt 대신 bcryptjs사용.
+

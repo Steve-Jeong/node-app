@@ -5,13 +5,14 @@ const mongoose = require('mongoose')
 const {MONGO_USER, MONGO_PASSWORD, MONGO_IP, MONGO_PORT} = require('./config/config')
 
 const postRouter = require('./routes/postRoutes')
+const userRouter = require('./routes/userRoutes')
 const app = express()
 
 app.use(express.json())
 
 const connectWithRetry =  () => {
   mongoose
-    .connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MONGO_PORT}/?authSource=admin`)
+    .connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MONGO_PORT}/mytestdb?authSource=admin`)
     .then(()=>console.log("successfully connected to DB"))
     .catch((e)=>{
       console.log(e)
@@ -26,6 +27,7 @@ app.get('/', (req, res)=>{
 })
 
 app.use('/api/v1/posts', postRouter)
+app.use('/api/v1/users', userRouter)
 
 const PORT = process.env.PORT || 3001
 console.log('PORT : ', PORT)

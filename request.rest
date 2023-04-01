@@ -6,12 +6,12 @@ POST http://localhost:3001/api/v1/posts
 Content-Type: application/json
 
 {
-  "title":"my third post",
-  "body":"body of third post"
+  "title":"my second post",
+  "body":"body of second post"
 }
 
 ### update a post
-PATCH http://localhost:3001/api/v1/posts/6427271f0c0456918fc0b693
+PATCH http://localhost:3001/api/v1/posts/6428522b228e8f046deefb2c
 Content-Type: application/json
 
 {
@@ -20,7 +20,28 @@ Content-Type: application/json
 }
 
 ### get a post
-GET http://localhost:3001/api/v1/posts/6427271f0c0456918fc0b693
+GET http://localhost:3001/api/v1/posts/6428522b228e8f046deefb2c
 
 ### delete a post
-DELETE  http://localhost:3001/api/v1/posts/6427271f0c0456918fc0b693
+DELETE  http://localhost:3001/api/v1/posts/6428522b228e8f046deefb2c
+
+### sign up
+POST http://localhost:3001/api/v1/users/signup
+Content-Type: application/json
+
+{
+  "username":"John",
+  "password":"test"
+}
+
+### login
+GET http://localhost:3001/api/v1/users/login
+Content-Type: application/json
+
+{
+  "username":"sanjeev",
+  "password":"test"
+}
+
+### get all users
+GET http://localhost:3001/api/v1/users
