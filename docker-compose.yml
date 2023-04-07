@@ -13,5 +13,8 @@ services:
     volumes:
       - mongo-db:/data/db    # named volume이름은 volume section에 그 이름을 미리 등록해야 한다.
 
+  redis:
+    image: redis:6
+
 volumes:
   mongo-db:

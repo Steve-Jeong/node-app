@@ -30,17 +30,17 @@ POST http://localhost:3001/api/v1/users/signup
 Content-Type: application/json
 
 {
-  "username":"John",
-  "password":"test"
+  "username":"w@w",
+  "password":"w"
 }
 
 ### login
-GET http://localhost:3001/api/v1/users/login
+POST http://localhost:3001/api/v1/users/login
 Content-Type: application/json
 
 {
-  "username":"sanjeev",
-  "password":"test"
+  "username":"w@w",
+  "password":"w"
 }
 
 ### get all users

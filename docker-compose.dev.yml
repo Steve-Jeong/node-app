@@ -1,17 +1,18 @@
 version: '3'
 services:
   node-app:
-    build: 
+    build:
       context: .
-      args: 
+      args:
         NODE_ENV: development
-    ports:
-      - 3001:4567
     environment:
-      - PORT=4567
+      - PORT=3456
       - NODE_ENV=development
       - MONGO_USER=sanjeev
       - MONGO_PASSWORD=mypassword
+      - SESSION_SECRET=secret
+    ports:
+      - 3001:3456
     volumes:
       - ./:/app
       - /app/node_modules
@@ -21,4 +22,3 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=sanjeev
       - MONGO_INITDB_ROOT_PASSWORD=mypassword
-    

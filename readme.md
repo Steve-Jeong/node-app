@@ -139,10 +139,25 @@ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 
 도커컴포즈 배포환경에서는 로컬환경의 소스코드변경이 빌드프로세스에서 캐치하지 못할 경우가 있으므로 --build옵션을 더해준다.
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+
+Dockerfile의 
+ENV PORT 3000
+EXPOSE $PORT
+
+와 .env 파일의
+PORT=4422
+또는 docker-compose.yml의 
+    environment:
+      - PORT=3456
+중 어떤 것이 우선권이 있나?
+-> .env 또는 docker-compose 가 우선권이 있다.
+
+도커 컨테이너의 environment variable 확인 방법
+# printenv
 ```   
 
 
-# 유투브 13 정리 - mongodb 컨테이너 설치
+# 유투브 12 정리 - mongodb 컨테이너 설치
 https://www.youtube.com/watch?v=wZZMuqDmNmU&list=PL8VzFQ8k4U1JEu7BLraz8MdKJILJir7oY&ab_channel=SanjeevThiyagarajan
 
 ```dockerfile
@@ -182,12 +197,12 @@ docker-compose -f docker-compose.yml -f docker-compose.dev.yml down -v
 docker volume prune
 을 통해 컨테이너와 상관이 없는 볼륨만 삭제해야 한다.
 
-그 다음 -v옵션이 없는 명령어도 컨테이너 중지를 한다.
+그 다음 -v옵션이 없는 명령어로 컨테이너 중지를 한다.
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
 ```
 
 
-# 유투브 14 정리 - mongoose설치
+# 유투브 13 정리 - mongoose설치
 https://www.youtube.com/watch?v=siSUyDzbe1E&list=PL8VzFQ8k4U1JEu7BLraz8MdKJILJir7oY&index=14&ab_channel=SanjeevThiyagarajan
 
 mongoose를 Local환경에서 npm i mongoose로 추가하려니 package.json에 다음과 같은 오류가 발생
@@ -214,9 +229,19 @@ volumes:
 volumes:
   - ./:/app
 ```
+```
+mongoose.connect('mongodb://sanjeev:mypassword@mongo:27017/mytestdb?authSource=admin')
+위에서 mongo는 mongo컨테이너 서비스의 이름임. docker가 자체 dns를 이용하여 mongo가 돌아가는 컨테이너의 ip address를 입력해 줌.
+```
 
-   
 
+<br><br>
+# 유투브 14 정리 - Environment Variables
+https://www.youtube.com/watch?v=siSUyDzbe1E&list=PL8VzFQ8k4U1JEu7BLraz8MdKJILJir7oY&ab_channel=SanjeevThiyagarajan
+
+
+
+<br><br>
 # 유투브 15 정리 - depends_on property
 https://www.youtube.com/watch?v=Xgcr0NLlJT4&list=PL8VzFQ8k4U1JEu7BLraz8MdKJILJir7oY&index=15&ab_channel=SanjeevThiyagarajan
 
@@ -286,3 +311,23 @@ https://www.youtube.com/watch?v=AxMhLqZYPIg&list=PL8VzFQ8k4U1JEu7BLraz8MdKJILJir
 
 bcrypt 대신 bcryptjs사용.
 
+
+
+
+# 유투브 18 정리 - Express Sessions Authentication w/Redis
+https://www.youtube.com/watch?v=ilucNEYQnZo&list=PL8VzFQ8k4U1JEu7BLraz8MdKJILJir7oY&index=18&t=5s&ab_channel=SanjeevThiyagarajan
+
+npm install redis connect-redis express-session
+
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --renew-anon-volumes
+위와 같이 docker-compose down을 하고 다시 docker-compose up을 할 필요가 없다. 대신 --renew-anon-volumes를 적용하여 기존 anonymous volume을 재사용하는 대신 새로운 anonymous volume을 사용하도록 하여 위의 새로운 npm package를 반영하도록 한다.
+
+```
+docker exec -it node-app-redis-1 redis-cli
+node-app-redis-1 컨테이너의 redis-cli를 실행
+
+KEYS *
+현재 저장된 모든 KEY를 보여줌
+
+```
+redis 컨테이너에 로그인 불가 -> 왜 그럴까?

@@ -2,13 +2,44 @@ if(process.env.NODE_ENV==='development')
   require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
-const {MONGO_USER, MONGO_PASSWORD, MONGO_IP, MONGO_PORT} = require('./config/config')
+const {MONGO_USER, MONGO_PASSWORD, MONGO_IP, MONGO_PORT, REDIS_URL, REDIS_PORT, SESSION_SECRET} = require('./config/config')
 
 const postRouter = require('./routes/postRoutes')
 const userRouter = require('./routes/userRoutes')
-const app = express()
 
+const app = express()
 app.use(express.json())
+
+const session = require('express-session')
+const {createClient} = require('redis')
+
+// let redisClient = redis.createClient()
+// redisClient.connect({
+//   host: "redis",
+//   port:REDIS_PORT
+// }).catch(console.error)
+let redisClient = createClient({ legacyMode: true })
+redisClient.connect().catch(console.error)
+
+let RedisStore = require("connect-redis")(session)
+let redisStore = new RedisStore({
+  client: redisClient,
+  prefix: "myapp:",
+})
+
+app.use(session({
+  store: redisStore,
+  secret: SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  name: "sessionId",  // nodejs를 쓰면 session id이름이 connect.id인데 이를 일반적인 이름으로 바꾸어서 해커 공격으로 부터 보호한다.
+  cookie: {
+    secure: false,
+    httpOnly: true,
+    maxAge: 30000
+  }
+}))
+
 
 const connectWithRetry =  () => {
   mongoose
@@ -21,6 +52,7 @@ const connectWithRetry =  () => {
 }
 
 connectWithRetry()
+
 
 app.get('/', (req, res)=>{
   res.send('<h1>Hello World!!</h1>')
