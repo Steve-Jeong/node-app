@@ -330,4 +330,31 @@ KEYS *
 현재 저장된 모든 KEY를 보여줌
 
 ```
-redis 컨테이너에 로그인 불가 -> 왜 그럴까?
+redis 컨테이너에 로그인 불가 -> 왜 그럴까?   
+
+<br>
+다음과 같이 해서 node-redis 4.6.5를 사용하여 redis:7.0.10 컨테이너에 연결 성공
+------------------------------------------------------------------------------
+
+```javascript
+const {REDIS_URL, REDIS_PORT} = require('./config/config')
+
+const app = express()
+app.use(express.json())
+
+const session = require('express-session')
+const {createClient} = require('redis')
+
+let redisClient = createClient({url:REDIS_URL})
+
+async function connect() {
+  redisClient.on('error', err => console.log('Redis Client Error', err));
+
+  await redisClient.connect().catch(console.error)
+
+  await redisClient.set('my_key', 'my value');
+  const value = await redisClient.get('my_key');
+  console.log('my_key : ', value)
+}
+connect()
+```

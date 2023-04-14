@@ -4,6 +4,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const {MONGO_USER, MONGO_PASSWORD, MONGO_IP, MONGO_PORT, REDIS_URL, REDIS_PORT, SESSION_SECRET} = require('./config/config')
 
+
 const postRouter = require('./routes/postRoutes')
 const userRouter = require('./routes/userRoutes')
 
@@ -13,13 +14,19 @@ app.use(express.json())
 const session = require('express-session')
 const {createClient} = require('redis')
 
-// let redisClient = redis.createClient()
-// redisClient.connect({
-//   host: "redis",
-//   port:REDIS_PORT
-// }).catch(console.error)
-let redisClient = createClient({ legacyMode: true })
-redisClient.connect().catch(console.error)
+let redisClient = createClient({url:REDIS_URL})
+
+
+async function connect() {
+  redisClient.on('error', err => console.log('Redis Client Error', err));
+
+  await redisClient.connect().catch(console.error)
+
+  await redisClient.set('my_key', 'my value');
+  const value = await redisClient.get('my_key');
+  console.log('my_key : ', value)
+}
+connect()
 
 let RedisStore = require("connect-redis")(session)
 let redisStore = new RedisStore({

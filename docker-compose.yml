@@ -4,6 +4,8 @@ services:
     build: .
     depends_on:
       - mongo
+    links:
+      - redis
 
   mongo:
     image: mongo:6   #mongo database
@@ -14,7 +16,9 @@ services:
       - mongo-db:/data/db    # named volume이름은 volume section에 그 이름을 미리 등록해야 한다.
 
   redis:
-    image: redis:6
+    image: redis:7.0.10
+    ports:
+      - 6379:6379
 
 volumes:
   mongo-db:
