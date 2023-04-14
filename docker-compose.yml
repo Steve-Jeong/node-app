@@ -6,6 +6,7 @@ services:
       - mongo
     links:
       - redis
+      - mongo
 
   mongo:
     image: mongo:6   #mongo database
@@ -14,6 +15,8 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=mypassword
     volumes:
       - mongo-db:/data/db    # named volume이름은 volume section에 그 이름을 미리 등록해야 한다.
+    ports:
+      - 27017:27017
 
   redis:
     image: redis:7.0.10

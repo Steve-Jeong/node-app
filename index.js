@@ -11,7 +11,6 @@ const userRouter = require('./routes/userRoutes')
 const app = express()
 app.use(express.json())
 
-const session = require('express-session')
 const {createClient} = require('redis')
 
 let redisClient = createClient({url:REDIS_URL})
@@ -19,15 +18,17 @@ let redisClient = createClient({url:REDIS_URL})
 
 async function connect() {
   redisClient.on('error', err => console.log('Redis Client Error', err));
-
+  redisClient.on('ready', () => console.log('Redis is ready to use'));
+  
   await redisClient.connect().catch(console.error)
-
+  
   await redisClient.set('my_key', 'my value');
   const value = await redisClient.get('my_key');
   console.log('my_key : ', value)
 }
 connect()
 
+const session = require('express-session')
 let RedisStore = require("connect-redis")(session)
 let redisStore = new RedisStore({
   client: redisClient,
@@ -43,7 +44,7 @@ app.use(session({
   cookie: {
     secure: false,
     httpOnly: true,
-    maxAge: 30000
+    maxAge: 30*1000    // 30 seconds
   }
 }))
 
@@ -51,7 +52,7 @@ app.use(session({
 const connectWithRetry =  () => {
   mongoose
     .connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MONGO_PORT}/mytestdb?authSource=admin`)
-    .then(()=>console.log("successfully connected to DB"))
+    .then(()=>console.log("successfully connected to MongoDB"))
     .catch((e)=>{
       console.log(e)
       setTimeout(connectWithRetry, 5000)
