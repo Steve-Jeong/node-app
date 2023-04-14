@@ -6,12 +6,12 @@ POST http://localhost:3001/api/v1/posts
 Content-Type: application/json
 
 {
-  "title":"my second post",
-  "body":"body of second post"
+  "title":"my third post",
+  "body":"body of third post"
 }
 
 ### update a post
-PATCH http://localhost:3001/api/v1/posts/6428522b228e8f046deefb2c
+PATCH http://localhost:3001/api/v1/posts/6427271f0c0456918fc0b693
 Content-Type: application/json
 
 {
