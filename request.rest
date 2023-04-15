@@ -23,7 +23,7 @@ Content-Type: application/json
 GET http://localhost:3001/api/v1/posts/6428522b228e8f046deefb2c
 
 ### delete a post
-DELETE  http://localhost:3001/api/v1/posts/6428522b228e8f046deefb2c
+DELETE  http://localhost:3001/api/v1/posts/643af022353267e95608692e
 
 ### sign up
 POST http://localhost:3001/api/v1/users/signup

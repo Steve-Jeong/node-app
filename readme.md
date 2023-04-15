@@ -360,4 +360,9 @@ connect()
 ```
 
 named volume을 지워서 그런지 이번에는 mongodb가 접속이 안됨.   
-새로 mongodb부터 redis, express-session까지 해 보면 모두 접속이 잘됨.
+node-app2를 새로 만들어 mongodb부터 redis, express-session까지 해 보면 모두 접속이 잘됨.
+
+이후 다시 node-app도 잘됨. -> 원인은 잘 모르겠음.
+
+node-app2의 mongodb와 node-app의 mongodb는 같은 volume명 mongo-db를 가지고 있지만 별개임
+
