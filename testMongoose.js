@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-mongoose.connect('mongodb://sanjeev:mypassword@172.18.0.5:27017/testMongoose?authSource=admin')
+mongoose.connect('mongodb://sanjeev:mypassword@172.19.0.2:27017/testMongoose?authSource=admin')
 
 const UserSchema = new mongoose.Schema({
   name: String,

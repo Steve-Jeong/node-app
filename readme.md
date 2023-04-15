@@ -358,3 +358,6 @@ async function connect() {
 }
 connect()
 ```
+
+named volume을 지워서 그런지 이번에는 mongodb가 접속이 안됨.   
+새로 mongodb부터 redis, express-session까지 해 보면 모두 접속이 잘됨.

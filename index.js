@@ -31,7 +31,7 @@ async function connect() {
 connect()
 
 const session = require('express-session')
-let RedisStore = require("connect-redis")(session)
+let RedisStore = require("connect-redis").default
 let redisStore = new RedisStore({
   client: redisClient,
   prefix: "myapp:",
@@ -55,7 +55,7 @@ app.use(express.json())
 
 const connectWithRetry =  () => {
   mongoose
-    .connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MONGO_PORT}/mytestdb?authSource=admin`)
+    .connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MONGO_PORT}/newTest?authSource=admin`)
     .then(()=>console.log("successfully connected to MongoDB"))
     .catch((e)=>{
       console.log(e)

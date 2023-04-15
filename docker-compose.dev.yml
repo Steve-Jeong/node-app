@@ -18,8 +18,4 @@ services:
       - /app/node_modules
     command: npm run dev
 
-  mongo:
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=sanjeev
-      - MONGO_INITDB_ROOT_PASSWORD=mypassword
 
