@@ -205,14 +205,17 @@ docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
 # 유투브 13 정리 - mongoose설치
 https://www.youtube.com/watch?v=siSUyDzbe1E&list=PL8VzFQ8k4U1JEu7BLraz8MdKJILJir7oY&index=14&ab_channel=SanjeevThiyagarajan
 
-mongoose를 Local환경에서 npm i mongoose로 추가하려니 package.json에 다음과 같은 오류가 발생
+컨테이너 안에서 mongoose를 Local환경에서 npm i mongoose로 추가하려니 package.json에 다음과 같은 오류가 발생
 npm ERR! code EACCES
 npm ERR! syscall mkdir
 npm ERR! path /home/ubuntu/dev/docker/node-app/node_modules/abbrev
 npm ERR! errno -13
 npm ERR! Error: EACCES: permission denied, mkdir '/home/ubuntu/dev/docker/node-app/node_modules/abbrev'
 
-node_modules 디렉토리를 지우고, npm i mongoose로 추가 성공.
+-> node_modules 디렉토리를 지우고, npm i mongoose로 추가 성공.
+
+컨테이너를 돌리지 않는 상태에서 npm i mongoose를 하면 오류없이 설치됨. package.json에 dependency가 반영되었으므로 다음 docker compose up시에 관련 모듈이 설치될 것임.
+
 
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build와 같이 컨테이너를 실행하니 다음과 같은 에러 발행
 
@@ -342,13 +345,13 @@ const {REDIS_URL, REDIS_PORT} = require('./config/config')
 const app = express()
 app.use(express.json())
 
-const session = require('express-session')
 const {createClient} = require('redis')
 
 let redisClient = createClient({url:REDIS_URL})
 
 async function connect() {
   redisClient.on('error', err => console.log('Redis Client Error', err));
+  redisClient.on('ready', () => console.log('Redis is ready to use'));
 
   await redisClient.connect().catch(console.error)
 
@@ -360,9 +363,11 @@ connect()
 ```
 
 named volume을 지워서 그런지 이번에는 mongodb가 접속이 안됨.   
-node-app2를 새로 만들어 mongodb부터 redis, express-session까지 해 보면 모두 접속이 잘됨.
+node-app2를 새로 만들어 mongodb부터 redis, express-session까지 처음부터 해 보면 모두 접속이 잘됨.   
 
-이후 다시 node-app도 잘됨. -> 원인은 잘 모르겠음.
+이후 다시 node-app도 잘됨. -> 원인은 잘 모르겠음.  
 
-node-app2의 mongodb와 node-app의 mongodb는 같은 volume명 mongo-db를 가지고 있지만 별개임
+node-app2의 mongodb와 node-app의 mongodb는 같은 volume명 mongo-db를 가지고 있지만 별개임   
+-> 컨테이너이름이 다르기 때문. node-app-mongo-1 vs node-app2-mongo-1
+-> 포트를 같은 것을 쓰기 때문에 동시에 돌아가지는 못한다.
 
