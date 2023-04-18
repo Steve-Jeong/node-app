@@ -371,3 +371,32 @@ node-app2의 mongodb와 node-app의 mongodb는 같은 volume명 mongo-db를 가�
 -> 컨테이너이름이 다르기 때문. node-app-mongo-1 vs node-app2-mongo-1
 -> 포트를 같은 것을 쓰기 때문에 동시에 돌아가지는 못한다.
 
+다음과 같이 makefile을 만들고 make {label}식으로 운용하면 편하다.
+```makefile
+build:
+	docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+
+down:
+	docker compose down
+
+log-sh:
+	docker logs node-app-node-app-1 -f
+
+log-mongodb:
+	docker logs node-app-mongo-1 -f
+
+log-redis:
+	docker logs node-app-redis-1 -f
+
+exec-sh:
+	docker exec -it node-app-node-app-1 bash
+
+exec-mongodb:
+	docker exec -it node-app-mongo-1 mongosh -u "sanjeev" -p "mypassword"
+
+exec-redis:
+	docker exec -it node-app-redis-1 redis-cli
+```
+
+login이 안되 있으면 작동하지 않는 middleware protect추가.
+logout route 추가

@@ -6,8 +6,8 @@ POST http://localhost:3001/api/v1/posts
 Content-Type: application/json
 
 {
-  "title":"my third post",
-  "body":"body of third post"
+  "title":"my sixth post",
+  "body":"body of sixth post"
 }
 
 ### update a post
@@ -30,7 +30,16 @@ POST http://localhost:3001/api/v1/users/signup
 Content-Type: application/json
 
 {
-  "username":"w@w",
+  "username":"w@x",
+  "password":"w"
+}
+
+### sign up
+POST http://localhost:3001/api/v1/users/signup
+Content-Type: application/json
+
+{
+  "username":"jst0930@gmail.com",
   "password":"w"
 }
 
@@ -43,5 +52,17 @@ Content-Type: application/json
   "password":"w"
 }
 
+### login
+POST http://localhost:3001/api/v1/users/login
+Content-Type: application/json
+
+{
+  "username":"jst0930@gmail.com",
+  "password":"w"
+}
+
 ### get all users
 GET http://localhost:3001/api/v1/users
+
+### logout
+POST http://localhost:3001/api/v1/users/logout
