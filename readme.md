@@ -400,3 +400,10 @@ exec-redis:
 
 login이 안되 있으면 작동하지 않는 middleware protect추가.
 logout route 추가
+
+
+
+# 유투브 19 정리 - Application Architecture Review
+https://www.youtube.com/watch?v=EPbW6SBcA0U&list=PL8VzFQ8k4U1JEu7BLraz8MdKJILJir7oY&ab_channel=SanjeevThiyagarajan
+
+Load balancer 개념 설명
