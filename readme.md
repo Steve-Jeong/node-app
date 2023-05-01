@@ -420,3 +420,14 @@ https://expressjs.com/en/guide/behind-proxies.html
 docker scale을 하면 처음에는 한쪽 server만 실행되지만 20번이상 sever를 실행하면 2개의 서버가 순차적으로 번갈아가면서 실행된다.
 
 
+
+# 유투브 21 정리 - Express CORS configuration
+https://www.youtube.com/watch?v=a4K0cntPw0E&list=PL8VzFQ8k4U1JEu7BLraz8MdKJILJir7oY&ab_channel=SanjeevThiyagarajan
+
+frontend의 주소가 www.myhome.com이고 api의 주소가 www.myapi.com이라면, frontend에서 backend로의 request는 backend에서 차단된다.   
+이를 해결하기 위한 cors middleware를 설치한다.   
+```
+npm i cors   
+```
+그런데 우리는 node_modules에 anonymous volume을 사용하고 있으므로, 새로 설치한 cors middleware를 포함한 node_modules가 anonymous volume에 재생성되도록 build option에 --renew-anon-volumes 또는 -V 을 줘야한다.   
+

@@ -1,6 +1,9 @@
 build:
 	docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 
+build-renew:
+	docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build -V
+
 build2:
 	docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --scale node-app=2
 

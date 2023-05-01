@@ -2,6 +2,7 @@ if(process.env.NODE_ENV==='development')
   require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors')
 
 const {MONGO_USER, MONGO_PASSWORD, MONGO_IP, MONGO_PORT, REDIS_URL, REDIS_PORT, SESSION_SECRET} = require('./config/config')
 
@@ -66,6 +67,7 @@ const connectWithRetry =  () => {
 connectWithRetry()
 
 app.enable("trust proxy")
+app.use(cors({}))
 
 app.get('/api/v1', (req, res)=>{
   res.send('<h1>Hello World!!</h1>')
