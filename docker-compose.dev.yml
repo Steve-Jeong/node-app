@@ -1,5 +1,9 @@
 version: '3'
 services:
+  nginx:
+    ports:
+      - "3001:80"
+
   node-app:
     build:
       context: .
@@ -11,8 +15,7 @@ services:
       - MONGO_USER=sanjeev
       - MONGO_PASSWORD=mypassword
       - SESSION_SECRET=secret
-    ports:
-      - 3001:3456
+
     volumes:
       - ./:/app
       - /app/node_modules

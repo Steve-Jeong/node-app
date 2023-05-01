@@ -407,3 +407,16 @@ logout route 추가
 https://www.youtube.com/watch?v=EPbW6SBcA0U&list=PL8VzFQ8k4U1JEu7BLraz8MdKJILJir7oY&ab_channel=SanjeevThiyagarajan
 
 Load balancer 개념 설명
+
+
+
+# 유투브 20 정리 - NGinx container Load Balancing
+https://www.youtube.com/watch?v=uTstD7R2Wps&list=PL8VzFQ8k4U1JEu7BLraz8MdKJILJir7oY&ab_channel=SanjeevThiyagarajan
+
+
+https://expressjs.com/en/guide/behind-proxies.html   
+위에 따라 app.set('trust proxy')설정을 한다. 
+
+docker scale을 하면 처음에는 한쪽 server만 실행되지만 20번이상 sever를 실행하면 2개의 서버가 순차적으로 번갈아가면서 실행된다.
+
+

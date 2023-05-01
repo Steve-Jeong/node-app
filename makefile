@@ -1,11 +1,18 @@
 build:
 	docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 
+build2:
+	docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --scale node-app=2
+
+
 down:
 	docker compose down
 
-log-sh:
+log-sh1:
 	docker logs node-app-node-app-1 -f
+
+log-sh2:
+	docker logs node-app-node-app-2 -f
 
 log-mongodb:
 	docker logs node-app-mongo-1 -f

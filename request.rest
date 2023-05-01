@@ -20,7 +20,7 @@ Content-Type: application/json
 }
 
 ### get a post
-GET http://localhost:3001/api/v1/posts/6428522b228e8f046deefb2c
+GET http://localhost:3001/api/v1/posts/643aefc5353267e956086920
 
 ### delete a post
 DELETE  http://localhost:3001/api/v1/posts/643af022353267e95608692e
@@ -66,3 +66,7 @@ GET http://localhost:3001/api/v1/users
 
 ### logout
 POST http://localhost:3001/api/v1/users/logout
+
+
+### api home
+GET http://localhost:3001/api/v1
